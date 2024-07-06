@@ -10,13 +10,16 @@ CFLAGS = -Wall -Wextra -Werror
 #######################################################
 # MANDATORY     									  #
 #######################################################
-SOURCES = philosophers.c
+SOURCES = philosophers.c philosophers_utils_1.c philosophers_utils_2.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
 #######################################################
 # OPERATIONS 										  #
 #######################################################
+$(NAME) : $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME)
+
 all: $(NAME)
 
 clean:
