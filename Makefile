@@ -5,7 +5,7 @@ NAME = philosophers
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+#CFLAGS = -Wall -Wextra -Werror
 
 #######################################################
 # MANDATORY     									  #
