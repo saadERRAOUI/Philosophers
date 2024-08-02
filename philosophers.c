@@ -6,49 +6,62 @@
 /*   By: serraoui <serraoui@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:56:31 by serraoui          #+#    #+#             */
-/*   Updated: 2024/05/14 20:34:47 by serraoui         ###   ########.fr       */
+/*   Updated: 2024/08/02 01:03:55 by serraoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void ft_init_pgroup(t_pgroup *pgroup, int ac, int number)
+void ft_check_death(t_pgroup *pgroup)
 {
-    if (ac == 6)
+    size_t i;
+    t_philo *philos;
+
+    i = -1;
+    philos = pgroup->philos;
+    while (++i < pgroup->nbr_philos)
     {
-        pgroup->nbr_meals = (size_t)number;
-        pgroup->f_meals = 1;
+        if (philos[i].tt_start == 0 && ft_get_timestamp()
+			- pgroup->t_start_dinner >= (long) philos[i].tt_die
+			&& philos[i].tt_die > 0)
+			pgroup->f_die = philos[i].id_philo;
+		else if (philos[i].tt_start && ft_get_timestamp()
+			- philos[i].tt_start >= (long) philos[i].tt_die)
+			pgroup->f_die = philos[i].id_philo;
     }
-    if (ac == 5)
-        pgroup->tt_sleep = (size_t)number;
-    if (ac == 4)
-        pgroup->tt_eat = (size_t)number;
-    if (ac == 3)
-        pgroup->tt_die = (size_t)number;
-    if (ac == 2)
-        pgroup->nbr_philos = (size_t)number;
 }
 
-int ft_check_params(int ac, char **av, t_pgroup **pgroup)
+void ft_supervise_dinner(t_pgroup *pgroup)
 {
-    int number;
-
-    (*pgroup) = malloc(sizeof(t_pgroup));
-    (*pgroup)->f_meals = 0;
-    while (ac != 1)
-    {
-        if (!ft_atoi_check(av[ac - 1], &number))
-            return (free(*pgroup), 0);
-		if ((ac == 6 && number < 0) || (ac != 6 && number <= 0))
-            return (free(*pgroup), 0);
-        printf("AC___ %i %i\n", ac, number);
-        ft_init_pgroup((*pgroup), ac, number);
-        ac--;
-    }
-    return (1);
+	while (1)
+	{
+        ft_check_death(pgroup);
+        if (pgroup->f_die != -1)
+        {
+            ft_handle_philo(&(pgroup->philos[pgroup->f_die]), DIE);
+            return ;
+        }
+        else if (pgroup->f_die == -1 && !ft_dinner_served(pgroup))
+            return ;
+	}
 }
 
-int main(int ac, char **av)
+void ft_free_table(t_pgroup *pgroup)
+{
+    size_t   i;
+    pthread_mutex_t  *forks;
+
+    i = -1;
+    forks = pgroup->forks;
+    while (++i < pgroup->nbr_philos)
+        pthread_mutex_destroy(&forks[i]);
+    free(pgroup->forks);
+    free(pgroup->philos);
+    pthread_mutex_destroy(pgroup->m_write);
+    free(pgroup);
+}
+
+int ft_main(int ac, char **av)
 {
     t_pgroup *pgroup = NULL;
 
@@ -56,13 +69,16 @@ int main(int ac, char **av)
         return (printf("Invalid number of params !\n"), 1);
     if (!ft_check_params(ac, av, &pgroup))
         return (printf("Invalid params, please recheck your input !\n"));
-    printf("OK \n");
-    printf("PGROUP__ %zu\n", pgroup->tt_eat);
-    printf("PGROUP__ %zu\n", pgroup->nbr_philos);
-    printf("PGROUP__ %zu\n", pgroup->tt_sleep);
-    printf("PGROUP__ %zu\n", pgroup->tt_die);
-    printf("PGROUP__ %zu\n", pgroup->nbr_meals);
-    printf("PGROUP__ %i\n", pgroup->f_meals);
     ft_init_philos(pgroup);
+    ft_simulate_dinner(pgroup);
+    ft_supervise_dinner(pgroup);
+    ft_free_table(pgroup);
+    return (0);
+}
+
+int main(int ac, char **av)
+{
+    ft_main(ac, av);
+    // system("leaks philosophers");
     return (0);
 }
