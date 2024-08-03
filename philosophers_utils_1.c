@@ -1,6 +1,18 @@
-# include "philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers_utils_1.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: serraoui <serraoui@student.42.fr>          #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024-08-03 19:58:45 by serraoui          #+#    #+#             */
+/*   Updated: 2024-08-03 19:58:45 by serraoui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void    ft_handle_mutex(pthread_mutex_t *mutex, int state)
+#include "philosophers.h"
+
+void	ft_handle_mutex(pthread_mutex_t *mutex, int state)
 {
 	if (state == INIT)
 		pthread_mutex_init(mutex, NULL);
@@ -12,7 +24,7 @@ void    ft_handle_mutex(pthread_mutex_t *mutex, int state)
 		pthread_mutex_destroy(mutex);
 }
 
-void    ft_handle_philo(t_philo *philo, int state)
+void	ft_handle_philo(t_philo *philo, int state)
 {
 	long	ts;
 
@@ -31,18 +43,18 @@ void    ft_handle_philo(t_philo *philo, int state)
 	pthread_mutex_unlock(philo->m_write);
 }
 
-int ft_init_philos(t_pgroup *pgroup)
+int	ft_init_philos(t_pgroup *pgroup)
 {
-	size_t  i;
-	size_t  nbr_philos;
-	pthread_mutex_t mutex;
+	size_t	i;
+	size_t	nbr_philos;
 
 	i = -1;
 	nbr_philos = pgroup->nbr_philos;
-	ft_handle_mutex(&mutex, INIT);
 	pgroup->f_die = -1;
-	pgroup->m_died = &mutex;
-	pgroup->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * pgroup->nbr_philos);
+	pgroup->m_write = malloc(sizeof(pthread_mutex_t));
+	ft_handle_mutex(pgroup->m_write, INIT);
+	pgroup->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* pgroup->nbr_philos);
 	while (++i < nbr_philos)
 		ft_handle_mutex(&(pgroup->forks[i]), INIT);
 	i = -1;
@@ -52,7 +64,7 @@ int ft_init_philos(t_pgroup *pgroup)
 	return (1);
 }
 
-void ft_init_philo(int id_philo, t_pgroup *pgroup, t_philo *philo)
+void	ft_init_philo(int id_philo, t_pgroup *pgroup, t_philo *philo)
 {
 	philo->id_philo = id_philo;
 	philo->tt_die = pgroup->tt_die;
@@ -67,13 +79,13 @@ void ft_init_philo(int id_philo, t_pgroup *pgroup, t_philo *philo)
 	philo->tt_start = 0;
 }
 
-long    ft_get_timestamp()
+long	ft_get_timestamp(void)
 {
-	struct timeval  tv;
-	int             ret;
+	struct timeval	tv;
+	int				ret;
 
 	ret = gettimeofday(&tv, NULL);
 	if (ret)
-		exit (1);
+		exit(1);
 	return ((tv.tv_sec * 1000000) + tv.tv_usec);
 }

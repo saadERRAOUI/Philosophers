@@ -1,8 +1,20 @@
-# include "philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers_utils_2.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: serraoui <serraoui@student.42.fr>          #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024-08-03 19:59:51 by serraoui          #+#    #+#             */
+/*   Updated: 2024-08-03 19:59:51 by serraoui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static int ft_isdigit(int c)
+#include "philosophers.h"
+
+static int	ft_isdigit(int c)
 {
-    return (c <= '9' && c >= '0');
+	return (c <= '9' && c >= '0');
 }
 
 int	ft_atoi_check(const char *str, int *number)
