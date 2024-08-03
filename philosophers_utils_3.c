@@ -6,7 +6,7 @@
 /*   By: serraoui <serraoui@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:59:38 by serraoui          #+#    #+#             */
-/*   Updated: 2024/08/02 18:59:29 by serraoui         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:16:41 by serraoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int ft_simulate_dinner(t_pgroup *pgroup)
     pgroup->t_start_dinner = ft_get_timestamp();
     while (++i < pgroup->nbr_philos)
     {
-        //(pgroup->philos[i]).tt_start = ft_get_timestamp();
         (pgroup->philos[i]).t_start_dinner = pgroup->t_start_dinner;
         if (pthread_create(&pgroup->philos[i].th_philo, 
             NULL,

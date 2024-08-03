@@ -41,7 +41,6 @@ int ft_init_philos(t_pgroup *pgroup)
 	nbr_philos = pgroup->nbr_philos;
 	ft_handle_mutex(&mutex, INIT);
 	pgroup->f_die = -1;
-
 	pgroup->m_died = &mutex;
 	pgroup->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * pgroup->nbr_philos);
 	while (++i < nbr_philos)
@@ -65,6 +64,7 @@ void ft_init_philo(int id_philo, t_pgroup *pgroup, t_philo *philo)
 	philo->r_fork = &pgroup->forks[id_philo];
 	philo->l_fork = &pgroup->forks[(id_philo + 1) % pgroup->nbr_philos];
 	philo->m_write = pgroup->m_write;
+	philo->tt_start = 0;
 }
 
 long    ft_get_timestamp()
@@ -75,5 +75,5 @@ long    ft_get_timestamp()
 	ret = gettimeofday(&tv, NULL);
 	if (ret)
 		exit (1);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	return ((tv.tv_sec * 1000000) + tv.tv_usec);
 }

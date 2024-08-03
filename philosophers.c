@@ -6,7 +6,7 @@
 /*   By: serraoui <serraoui@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:56:31 by serraoui          #+#    #+#             */
-/*   Updated: 2024/08/02 01:03:55 by serraoui         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:40:45 by serraoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void ft_check_death(t_pgroup *pgroup)
     while (++i < pgroup->nbr_philos)
     {
         if (philos[i].tt_start == 0 && ft_get_timestamp()
-			- pgroup->t_start_dinner >= (long) philos[i].tt_die
+			- pgroup->t_start_dinner >= (long) philos[i].tt_die * 1000
 			&& philos[i].tt_die > 0)
 			pgroup->f_die = philos[i].id_philo;
-		else if (philos[i].tt_start && ft_get_timestamp()
-			- philos[i].tt_start >= (long) philos[i].tt_die)
+		else if (philos[i].tt_start && ft_get_timestamp() 
+			- philos[i].tt_start >= (long) philos[i].tt_die * 1000)
 			pgroup->f_die = philos[i].id_philo;
     }
 }
