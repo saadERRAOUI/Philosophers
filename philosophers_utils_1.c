@@ -16,7 +16,7 @@ void    ft_handle_philo(t_philo *philo, int state)
 {
 	long	ts;
 
-	ts = ft_get_timestamp() - philo->t_start_dinner;
+	ts = (ft_get_timestamp() - philo->t_start_dinner) / 1000;
 	pthread_mutex_lock(philo->m_write);
 	if (state == FORK)
 		printf("%zu %i has taken a fork\n", ts, philo->id_philo);
