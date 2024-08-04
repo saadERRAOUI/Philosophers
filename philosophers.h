@@ -58,10 +58,7 @@ typedef struct s_pgroup
 	size_t			nbr_meals;
 	int				f_meals;
 	int				f_die;
-	int				f_done;
 	pthread_mutex_t	*m_write;
-	// pthread_mutex_t *m_meals;
-	// pthread_mutex_t *m_died;
 	pthread_mutex_t	*forks;
 	t_philo			*philos;
 }					t_pgroup;
@@ -79,7 +76,5 @@ int					ft_init_philos(t_pgroup *pgroup);
 int					ft_simulate_dinner(t_pgroup *pgroup);
 int					ft_dinner_served(t_pgroup *pgroup);
 int					ft_check_params(int ac, char **av, t_pgroup **pgroup);
-// int     ft_get_timestamp(long *ts);
-// t_philo *ft_init_philo(int id_philo, t_pgroup *pgroup);
 
 #endif
