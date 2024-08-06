@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_utils_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serraoui <serraoui@student.42.fr>          #+#  +:+       +#+        */
+/*   By: serraoui <serraoui@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-08-03 19:58:45 by serraoui          #+#    #+#             */
-/*   Updated: 2024-08-03 19:58:45 by serraoui         ###   ########.fr       */
+/*   Created: 2024/08/03 19:58:45 by serraoui          #+#    #+#             */
+/*   Updated: 2024/08/05 22:31:28 by serraoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void	ft_handle_philo(t_philo *philo, int state)
 	if (state == FORK)
 		printf("%zu %i has taken a fork\n", ts, philo->id_philo);
 	else if (state == EAT)
+	{		
+		// philo->tt_start = ft_get_timestamp();
 		printf("%zu %i is eating\n", ts, philo->id_philo);
+	}
 	else if (state == SLEEP)
 		printf("%zu %i is sleeping\n", ts, philo->id_philo);
 	else if (state == THINK)

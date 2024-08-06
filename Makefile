@@ -5,7 +5,7 @@ NAME = philosophers
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror  #-fsanitize=address -ggdb3 -pthread
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=thread -g3 -pthread
 
 #######################################################
 # MANDATORY     									  #

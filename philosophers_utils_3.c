@@ -6,7 +6,7 @@
 /*   By: serraoui <serraoui@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:59:38 by serraoui          #+#    #+#             */
-/*   Updated: 2024/08/03 15:16:41 by serraoui         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:48:37 by serraoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_check_params(int ac, char **av, t_pgroup **pgroup)
 void	*ft_philo_lifecycle(void *philo)
 {
 	t_philo	*p;
+	long tmp;
 
 	p = (t_philo *)philo;
 	while (1)
@@ -60,12 +61,13 @@ void	*ft_philo_lifecycle(void *philo)
 		ft_handle_philo(p, FORK);
 		pthread_mutex_lock(p->l_fork);
 		ft_handle_philo(p, FORK);
-		p->tt_start = ft_get_timestamp();
+		tmp = ft_get_timestamp();
 		ft_handle_philo(p, EAT);
-		p->t_meals_count += 1;
 		usleep((p->tt_eat) * 1000);
 		pthread_mutex_unlock(p->r_fork);
 		pthread_mutex_unlock(p->l_fork);
+		p->tt_start = tmp;
+		p->t_meals_count += 1;
 		ft_handle_philo(p, SLEEP);
 		usleep((p->tt_sleep) * 1000);
 		ft_handle_philo(p, THINK);
